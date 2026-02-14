@@ -44,8 +44,6 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.CreateCourse
             //course.TeacherId = _currentUserService.UserId;
             course.Slug = SlugHelper.Generate(request.Title);
             course.IsPublished = false;
-            course.CreatedAt = DateTime.UtcNow;
-            course.UpdatedAt = DateTime.UtcNow;
             await _courseRepository.AddAsync(course);
             return new Response<int>(course.Id);
         }

@@ -64,8 +64,6 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.UpdateCourse
             if (request.IsPublished && course.PublishedAt == null)
                 course.PublishedAt = DateTime.UtcNow;
 
-            course.UpdatedAt = DateTime.UtcNow;
-
             await _courseRepository.UpdateAsync(course);
 
             return new Response<int>(course.Id);

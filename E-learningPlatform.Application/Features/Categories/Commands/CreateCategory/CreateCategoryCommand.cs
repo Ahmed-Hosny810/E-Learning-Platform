@@ -37,8 +37,6 @@ namespace E_learningPlatform.Application.Features.Categories.Commands.CreateCate
         {
             var category=_mapper.Map<Category>(request);
             category.Slug = SlugHelper.Generate(request.Name);
-            category.CreatedAt = DateTime.UtcNow;
-            category.UpdatedAt = DateTime.UtcNow;
             await _categoryRepository.AddAsync(category);
 
             return new Response<int>(category.Id);

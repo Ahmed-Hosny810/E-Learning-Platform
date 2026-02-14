@@ -1,10 +1,11 @@
 
-
 using Asp.Versioning;
 using E_learningPlatform.Application;
+using E_learningPlatform.Application.Settings;
 using E_learningPlatform.Infrastructure.Persistence;
-using E_learningPlatform.Infrastructure.Persistence.Contexts;
-using Microsoft.EntityFrameworkCore;
+using E_learningPlatform.WebApi.Extensions;
+using Microsoft.Extensions.FileProviders;
+using System.Text.Json.Serialization;
 
 namespace E_learningPlatform.WebApi
 {
@@ -14,23 +15,30 @@ namespace E_learningPlatform.WebApi
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Controllers with JSON enum string conversion
+            builder.Services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.Converters
+                        .Add(new JsonStringEnumConverter());
+                });
 
-            builder.Services.AddControllers();
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddApplicationLayer();
 
-            //Api Versioning
+            builder.Services.Configure<FileUploadSettings>(
+                builder.Configuration.GetSection("FileUploadSettings"));
+
+            // API Versioning
             builder.Services.AddApiVersioning(options =>
             {
                 options.DefaultApiVersion = new ApiVersion(1, 0);
                 options.AssumeDefaultVersionWhenUnspecified = true;
                 options.ReportApiVersions = true;
-                // Combining multiple ways to read the version
-                options.ApiVersionReader=ApiVersionReader.Combine(
-                   new UrlSegmentApiVersionReader(),
-                   new HeaderApiVersionReader("x-api-version"),
-                   new QueryStringApiVersionReader("api-version")
+                options.ApiVersionReader = ApiVersionReader.Combine(
+                    new UrlSegmentApiVersionReader(),
+                    new HeaderApiVersionReader("x-api-version"),
+                    new QueryStringApiVersionReader("api-version")
                 );
             }).AddApiExplorer(options =>
             {
@@ -38,29 +46,42 @@ namespace E_learningPlatform.WebApi
                 options.SubstituteApiVersionInUrl = true;
             });
 
-
-            // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-            builder.Services.AddOpenApi();
+            // Swagger (via extension)
+            builder.Services.AddSwaggerExtension();
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            var physicalPath = Path.Combine(
+                builder.Environment.ContentRootPath, "App_Data", "uploads");
+
+            if (!Directory.Exists(physicalPath))
+            {
+                Directory.CreateDirectory(physicalPath);
+            }
+            app.UseRouting();
+
             if (app.Environment.IsDevelopment())
             {
-                app.MapOpenApi();
-                app.UseSwaggerUI(options => {
-                    options.SwaggerEndpoint("/openapi/v1.json", "v1");
-                });
+                app.UseSwaggerExtension(); 
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
 
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                FileProvider = new PhysicalFileProvider(physicalPath),
+                RequestPath = "/App_Data/uploads",
+                OnPrepareResponse = ctx =>
+                {
+                    ctx.Context.Response.Headers.Append("Accept-Ranges", "bytes");
+                    ctx.Context.Response.Headers.Append("Cache-Control", "public,max-age=604800");
+                }
+            });
 
             app.MapControllers();
-
             app.Run();
         }
     }
 }
+

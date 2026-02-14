@@ -12,7 +12,7 @@ namespace E_learningPlatform.Application.Features.Categories.Queries.GetAllCateg
     public class GetAllCategoriesParameters:RequestParameter<CategoryOrderKey>
     {
         public CategoryFilter Filter { get; set; } = new();
-        public CategoryIncludes Includes { get; set; } = CategoryIncludes.None;
+        public CategoryIncludes Includes { get; set; } 
     }
     public class CategoryFilter
     {
@@ -20,13 +20,13 @@ namespace E_learningPlatform.Application.Features.Categories.Queries.GetAllCateg
         public string? Name { get; set; }
 
     }
-    [Flags]
-    public enum CategoryIncludes
+
+    public class CategoryIncludes
     {
-        None = 0,
-        Parent = 1,
-        Children = 2,
-        Courses = 4
+        public bool ParentCategory { get; set; }
+        public bool Subcategories { get; set; }
+       // public bool Courses { get; set; }
+ 
     }
     public enum CategoryOrderKey
     {

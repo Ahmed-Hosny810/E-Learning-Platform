@@ -1,6 +1,8 @@
 ﻿using E_learningPlatform.Application.Interfaces.Repositories;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Infrastructure.Persistence.Contexts;
 using E_learningPlatform.Infrastructure.Persistence.Repositories;
+using E_learningPlatform.Infrastructure.Persistence.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +20,7 @@ namespace E_learningPlatform.Infrastructure.Persistence
             this IServiceCollection services,
             IConfiguration configuration)
         {
+            // Register DbContext with SQL Server provider
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("Cs")));
 
@@ -29,7 +32,10 @@ namespace E_learningPlatform.Infrastructure.Persistence
             services.AddScoped<ICourseRepositoryAsync, CourseRepositoryAsync>();
             services.AddScoped<ICourseCategoryRepositoryAsync, CourseCategoryRepositoryAsync>();
             services.AddScoped<IUserProfileRepositoryAsync, UserProfileRepositoryAsync>();
-
+            services.AddScoped<ISectionRepositoryAsync, SectionRepositoryAsync>();
+            services.AddScoped<ILessonRepositoryAsync, LessonRepositoryAsync>();
+            services.AddScoped<ILessonContentRepositoryAsync, LessonContentRepositoryAsync>();
+            services.AddTransient<IFileStorageService,LocalFileStorageService>();
             return services;
         }
     }

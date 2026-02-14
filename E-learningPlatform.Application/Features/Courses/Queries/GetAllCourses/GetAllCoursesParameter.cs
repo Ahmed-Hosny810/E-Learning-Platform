@@ -11,7 +11,7 @@ namespace E_learningPlatform.Application.Features.Courses.Queries.GetAllCourses
     public class GetAllCoursesParameter:RequestParameter<CourseOrderKey>
     {
         public CourseFilter Filter { get; set; } = new();
-        public CourseIncludes Includes { get; set; } = CourseIncludes.None;
+        public CourseIncludes Includes { get; set; } 
     }
     public class CourseFilter
     {
@@ -32,14 +32,12 @@ namespace E_learningPlatform.Application.Features.Courses.Queries.GetAllCourses
 
         public decimal? MinRating { get; set; }
     }
-    [Flags]
-    public enum CourseIncludes
+    public class CourseIncludes
     {
-        None = 0,
-        Teacher = 1,
-        Categories = 2,
-        Sections = 4,
-        Reviews = 8
+        public bool Categories { get; set; }
+        public bool Sections { get; set; }
+        public bool Reviews { get; set; }
+
     }
     public enum CourseOrderKey
     {

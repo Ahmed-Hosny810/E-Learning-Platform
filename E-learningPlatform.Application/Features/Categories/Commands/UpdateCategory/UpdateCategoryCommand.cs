@@ -41,7 +41,6 @@ namespace E_learningPlatform.Application.Features.Categories.Commands.UpdateCate
                 category.ParentCategoryId = request.ParentCategoryId;
                 category.DisplayOrder = request.DisplayOrder;
                 category.IsActive = request.IsActive;
-                category.UpdatedAt = DateTime.UtcNow;
                 await _categoryRepository.UpdateAsync(category);
                 return new Response<int>(category.Id);
             

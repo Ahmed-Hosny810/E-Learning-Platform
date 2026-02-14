@@ -10,8 +10,21 @@
   <ItemGroup>
     <Folder Include="DTOS\" />
     <Folder Include="Features\CourseCategories\Queries\" />
+    <Folder Include="Features\Enrollments\Commands\" />
+    <Folder Include="Features\Enrollments\DTO\" />
+    <Folder Include="Features\Enrollments\Queries\" />
+    <Folder Include="Features\LessonProgress\Commands\" />
+    <Folder Include="Features\LessonProgress\DTO\" />
+    <Folder Include="Features\LessonProgress\Queries\" />
+    <Folder Include="Features\SectionProgress\Commands\" />
+    <Folder Include="Features\SectionProgress\DTO\" />
+    <Folder Include="Features\SectionProgress\Queries\" />
   </ItemGroup>
 
+	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+	</ItemGroup>	
+	
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />

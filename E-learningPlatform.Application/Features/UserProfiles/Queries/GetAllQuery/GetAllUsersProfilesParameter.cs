@@ -10,7 +10,7 @@ namespace E_learningPlatform.Application.Features.UserProfiles.Queries.GetAllQue
     public class GetAllUsersProfilesParameter: RequestParameter<UserProfileOrderKey>
     {
         public UserFilter Filter { get; set; } = new();
-        public UserIncludes Includes { get; set; } = UserIncludes.None;
+        public UserIncludes Includes { get; set; } 
     }
 
     public class UserFilter
@@ -20,11 +20,9 @@ namespace E_learningPlatform.Application.Features.UserProfiles.Queries.GetAllQue
         public string? UserId { get; set; }
     }
 
-    [Flags]
-    public enum UserIncludes
+    public class UserIncludes
     {
-        None = 0,
-        Enrollments = 1,
+        public bool Enrollments { get; set; }
     }
     public enum UserProfileOrderKey
     {

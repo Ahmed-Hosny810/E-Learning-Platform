@@ -37,7 +37,6 @@ namespace E_learningPlatform.Application.Features.UserProfiles.Commands.UpdatePr
             profile.DisplayName=request.DisplayName;
             profile.Bio=request.Bio;
             profile.ProfilePictureUrl=request.ProfilePictureUrl;
-            profile.UpdatedAt = DateTime.UtcNow;
             await _userProfileRepository.UpdateAsync(profile);
             return new Response<int>(profile.Id);
         }

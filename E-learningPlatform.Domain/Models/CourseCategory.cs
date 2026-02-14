@@ -13,7 +13,7 @@ namespace E_learningPlatform.Domain.Models
         public DateTime AssignedAt { get; set; }
 
         // Navigation
-        public virtual Course Course { get; set; }
-        public virtual Category Category { get; set; }
+        public  Course Course { get; set; }
+        public  Category Category { get; set; }
     }
 }

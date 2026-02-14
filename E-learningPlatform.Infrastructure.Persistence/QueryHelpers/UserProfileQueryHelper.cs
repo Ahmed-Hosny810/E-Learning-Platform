@@ -37,11 +37,9 @@ namespace E_learningPlatform.Infrastructure.Persistence.QueryHelpers
 
         public UserProfileQueryHelper ApplyIncludes(UserIncludes includes)
         {
-            if (includes == UserIncludes.None)
-                return this;
 
-            //if (includes.HasFlag(UserIncludes.Enrollments))
-            //    _query = _query.Include(up => up.ParentCategory);
+            //if (includes.Enrollments)
+            //    _query = _query.Include(u =>u.Enrollments);
 
             return this;
         }
@@ -68,7 +66,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.QueryHelpers
 
         public IQueryable<UserProfile> Build()
         {
-            return _query;
+            return _query.AsNoTracking();
         }
     }
 }

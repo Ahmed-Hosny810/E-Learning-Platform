@@ -1,4 +1,5 @@
-﻿using E_learningPlatform.Domain.Enums;
+﻿using E_learningPlatform.Domain.Common;
+using E_learningPlatform.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,9 +8,8 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Domain.Models
 {
-    public class Course
+    public class Course: BaseEntity
     {
-        public int Id { get; set; }
         public string TeacherId { get; set; } // External Auth ID
         public string Title { get; set; }
         public string Slug { get; set; }
@@ -23,8 +23,6 @@ namespace E_learningPlatform.Domain.Models
         public string? WhatYouWillLearn { get; set; }
         public bool IsPublished { get; set; }
         public DateTime? PublishedAt { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
 
         // Cached fields
         public int EnrollmentCount { get; set; }
@@ -33,6 +31,7 @@ namespace E_learningPlatform.Domain.Models
         public int DurationMinutes { get; set; }
 
         public bool IsActive { get; set; }
-        public virtual ICollection<CourseCategory> CourseCategories { get; set; } = new HashSet<CourseCategory>();
+        public  ICollection<CourseCategory> CourseCategories { get; set; } = new HashSet<CourseCategory>();
+        public  ICollection<Section> Sections { get; set; } = new HashSet<Section>();
     }
 }

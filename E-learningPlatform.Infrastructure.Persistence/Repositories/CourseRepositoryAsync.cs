@@ -18,7 +18,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
     {
         private readonly ApplicationDbContext _context;
 
-        public CourseRepositoryAsync(ApplicationDbContext context,IMapper mapper) : base(context)
+        public CourseRepositoryAsync(ApplicationDbContext context) : base(context)
         {
             _context = context;
         }
@@ -125,31 +125,27 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
 
         private IQueryable<Course> ApplyIncludes(IQueryable<Course> query, CourseIncludes includes)
         {
-            if (includes == CourseIncludes.None)
+            if (includes == null)
                 return query;
 
-            // Include Teacher
-            //if (includes.HasFlag(CourseIncludes.Teacher))
-            //{
-            //    query = query.Include(c => c.TeacherProfile);
-            //}
-
             // Include Categories
-            //if (includes.HasFlag(CourseIncludes.Categories))
-            //{
-            //    query = query.Include(c => c.CourseCategories)
-            //                 .ThenInclude(cc => cc.Category);
-            //}
+            if (includes.Categories)
+            {
+                query = query.Include(c => c.CourseCategories)
+                             .ThenInclude(cc => cc.Category);
+            }
 
-            // Include Sections (Modules)
-            //if (includes.HasFlag(CourseIncludes.Sections))
-            //{
-            //    query = query.Include(c => c.Modules.OrderBy(m => m.OrderIndex));
-            //}
+            // Include Sections (Renamed from Modules)
+            if (includes.Sections)
+            {
+                // Using DisplayOrder as discussed in your Section model
+                query = query.Include(c => c.Sections.OrderBy(m => m.DisplayOrder));
+            }
 
-            // Include Reviews
-            //if (includes.HasFlag(CourseIncludes.Reviews))
+            //// Include Reviews
+            //if (includes.Reviews)
             //{
+            //    // Using filtered include to only bring back approved content
             //    query = query.Include(c => c.Reviews.Where(r => r.IsApproved));
             //}
 

@@ -37,19 +37,21 @@ namespace E_learningPlatform.Infrastructure.Persistence.QueryHelpers
 
         public CategoryQueryHelper ApplyIncludes(CategoryIncludes includes)
         {
-            if (includes == CategoryIncludes.None)
+            if (includes == null)
                 return this;
 
-            if (includes.HasFlag(CategoryIncludes.Parent))
+            // Include the Parent Category
+            if (includes.ParentCategory)
+            {
                 _query = _query.Include(c => c.ParentCategory);
+            }
 
-            if (includes.HasFlag(CategoryIncludes.Children))
+            // Include Subcategories (Children)
+            if (includes.Subcategories)
+            {
                 _query = _query.Include(c => c.SubCategories);
+            }
 
-            if (includes.HasFlag(CategoryIncludes.Courses))
-                _query = _query
-                    .Include(c => c.CourseCategories)
-                    .ThenInclude(cc => cc.Course);
 
             return this;
         }
@@ -76,7 +78,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.QueryHelpers
 
         public IQueryable<Category> Build()
         {
-            return _query;
+            return _query.AsNoTracking();
         }
     }
 }

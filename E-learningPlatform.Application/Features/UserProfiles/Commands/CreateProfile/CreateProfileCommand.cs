@@ -32,8 +32,6 @@ namespace E_learningPlatform.Application.Features.UserProfiles.Commands.CreatePr
         {
             var userProfile = _mapper.Map<UserProfile>(request);
             //userProfile.UserId = !! //  get this from the authenticated user context
-            userProfile.CreatedAt = DateTime.UtcNow;
-            userProfile.UpdatedAt = DateTime.UtcNow;
             await  _userProfileRepository.AddAsync(userProfile);
             return new Response<int>(userProfile.Id);
 

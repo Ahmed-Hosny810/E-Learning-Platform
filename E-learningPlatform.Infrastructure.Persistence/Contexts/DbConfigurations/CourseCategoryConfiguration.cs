@@ -21,7 +21,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
                 .IsRequired();
 
             builder.HasOne(cc => cc.Course)
-                .WithMany()
+                .WithMany(c => c.CourseCategories)
                 .HasForeignKey(cc => cc.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
 

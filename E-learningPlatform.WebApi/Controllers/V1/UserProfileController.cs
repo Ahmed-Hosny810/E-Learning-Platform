@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace E_learningPlatform.WebApi.Controllers.V1
 {
-    [Route("api/{version:apiVersion}/[controller]")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
     [ApiVersion("1.0")]
     public class UserProfileController : ControllerBase
