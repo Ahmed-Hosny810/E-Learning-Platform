@@ -5,6 +5,7 @@ using E_learningPlatform.Application.Features.CourseCategories.Commands.CreateCo
 using E_learningPlatform.Application.Features.CourseCategories.DTO;
 using E_learningPlatform.Application.Features.Courses.Commands.CreateCourse;
 using E_learningPlatform.Application.Features.Courses.DTO;
+using E_learningPlatform.Application.Features.Enrollments.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.LessonContents.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.LessonContents.DTO;
 using E_learningPlatform.Application.Features.Lessons.Commands.CreateCommand;
@@ -44,7 +45,7 @@ namespace E_learningPlatform.Application.Mappings
             CreateMap<LessonContent,CreateLessonContentCommand>().ReverseMap();
             CreateMap<LessonContent, LessonContentVm>()
                 .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.ContentType.ToString()));
-            //CreateMap<>().ReverseMap();
+            CreateMap<Enrollment,CreateEnrollmentCommand>().ReverseMap();
             //CreateMap<>().ReverseMap();
             //CreateMap<>().ReverseMap();
             //CreateMap<>().ReverseMap();

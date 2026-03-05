@@ -22,8 +22,7 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.CreateCourse
         public string Description { get; set; }
         public string? ThumbnailUrl { get; set; }
         public CourseLevel Level { get; set; } 
-        public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public decimal PriceUSD { get; set; }
         public string Language { get; set; }
         public string? Requirements { get; set; }
         public string? WhatYouWillLearn { get; set; }

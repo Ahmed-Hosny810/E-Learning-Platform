@@ -10,9 +10,6 @@
   <ItemGroup>
     <Folder Include="DTOS\" />
     <Folder Include="Features\CourseCategories\Queries\" />
-    <Folder Include="Features\Enrollments\Commands\" />
-    <Folder Include="Features\Enrollments\DTO\" />
-    <Folder Include="Features\Enrollments\Queries\" />
     <Folder Include="Features\LessonProgress\Commands\" />
     <Folder Include="Features\LessonProgress\DTO\" />
     <Folder Include="Features\LessonProgress\Queries\" />

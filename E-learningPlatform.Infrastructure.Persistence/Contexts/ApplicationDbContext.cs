@@ -30,6 +30,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
         public DbSet<Enrollment> Enrollments { get; set; }
         public DbSet<LessonProgress> LessonProgress { get; set; }
         public DbSet<SectionProgress>  SectionProgress { get; set; }
+        public DbSet<Payment>  Payments { get; set; }
 
 
 
@@ -45,6 +46,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
             modelBuilder.ApplyConfiguration(new EnrollmentConfiguration());
             modelBuilder.ApplyConfiguration(new LessonProgressConfiguration());
             modelBuilder.ApplyConfiguration(new SectionProgressConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -27,11 +27,7 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.CreateCourse
                 .NotEmpty()
                 .MaximumLength(10);
 
-            RuleFor(x => x.Currency)
-                .NotEmpty()
-                .Length(3, 4);
-
-            RuleFor(x => x.Price)
+            RuleFor(x => x.PriceUSD)
                 .GreaterThanOrEqualTo(0);
 
             RuleFor(x => x.Level)

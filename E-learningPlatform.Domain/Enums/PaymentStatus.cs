@@ -9,7 +9,9 @@ namespace E_learningPlatform.Domain.Enums
     public enum PaymentStatus
     {
         Pending = 0,
-        Paid = 1,
-        Refunded = 2
+        Success = 1,
+        Failed = 2,
+        Refunded = 3,
+        Cancelled = 4
     }
 }

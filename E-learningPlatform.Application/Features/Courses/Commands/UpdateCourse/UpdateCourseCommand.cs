@@ -25,8 +25,7 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.UpdateCourse
         public CourseLevel Level { get; set; }   
         public string Language { get; set; }
 
-        public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public decimal PriceUSD { get; set; }
 
         public string? Requirements { get; set; }
         public string? WhatYouWillLearn { get; set; }
@@ -52,8 +51,7 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.UpdateCourse
 
             course.Title = request.Title;
             course.Description = request.Description;
-            course.Price = request.Price;
-            course.Currency = request.Currency;
+            course.PriceUSD = request.PriceUSD;
             course.Language = request.Language;
             course.Level = (CourseLevel)request.Level;
             course.ThumbnailUrl = request.ThumbnailUrl;

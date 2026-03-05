@@ -16,8 +16,7 @@ namespace E_learningPlatform.Domain.Models
         public string Description { get; set; }
         public string? ThumbnailUrl { get; set; }
         public CourseLevel Level { get; set; } // Enum: 0=Beginner, 1=Intermediate, 2=Advanced
-        public decimal Price { get; set; }
-        public string Currency { get; set; }
+        public decimal PriceUSD { get; set; } // i will handle currency conversion at service layer
         public string Language { get; set; }
         public string? Requirements { get; set; }
         public string? WhatYouWillLearn { get; set; }

@@ -11,4 +11,10 @@ namespace E_learningPlatform.Domain.Enums
         Free = 0,
         Paid = 1    
     }
+
+    public class EnrollmentTypeTest
+    {
+        public bool Free { get; set; }
+        public bool Paid { get; set; }
+    }
 }

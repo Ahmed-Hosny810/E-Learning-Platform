@@ -97,10 +97,10 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
 
             // Price range filters
             if (filter.MinPrice.HasValue)
-                query = query.Where(c => c.Price >= filter.MinPrice.Value);
+                query = query.Where(c => c.PriceUSD >= filter.MinPrice.Value);
 
             if (filter.MaxPrice.HasValue)
-                query = query.Where(c => c.Price <= filter.MaxPrice.Value);
+                query = query.Where(c => c.PriceUSD <= filter.MaxPrice.Value);
 
             // Rating filter
             if (filter.MinRating.HasValue)
@@ -164,12 +164,8 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
                     : query.OrderBy(c => c.Title),
 
                 CourseOrderKey.Price => orderDescending
-                    ? query.OrderByDescending(c => c.Price)
-                    : query.OrderBy(c => c.Price),
-
-                CourseOrderKey.Currency => orderDescending
-                    ? query.OrderByDescending(c => c.Currency)
-                    : query.OrderBy(c => c.Currency),
+                    ? query.OrderByDescending(c => c.PriceUSD)
+                    : query.OrderBy(c => c.PriceUSD),
 
                 CourseOrderKey.Language => orderDescending
                     ? query.OrderByDescending(c => c.Language)

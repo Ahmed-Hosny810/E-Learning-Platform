@@ -35,7 +35,19 @@ namespace E_learningPlatform.Infrastructure.Persistence
             services.AddScoped<ISectionRepositoryAsync, SectionRepositoryAsync>();
             services.AddScoped<ILessonRepositoryAsync, LessonRepositoryAsync>();
             services.AddScoped<ILessonContentRepositoryAsync, LessonContentRepositoryAsync>();
+            services.AddScoped<IEnrollmentRepositoryAsync, EnrollmentRepositoryAsync>();
+            services.AddScoped<IPaymentRepositoryAsync, PaymentRepositoryAsync>();
             services.AddTransient<IFileStorageService,LocalFileStorageService>();
+
+            services.AddHttpClient<IPaymentService, PaymentService>(client =>
+            {
+                // This matches the Base URL of your Payment Minimal API
+                client.BaseAddress = new Uri(configuration["PaymentSettings:BaseUrl"]);
+
+                client.DefaultRequestHeaders.Add("X-Payment-Secret", configuration["PaymentSettings:WebhookSecret"]);
+                client.DefaultRequestHeaders.Add("Accept", "application/json");
+            }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
             return services;
         }
     }

@@ -42,12 +42,9 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
                 .HasConversion<int>()
                 .IsRequired();
 
-            builder.Property(c => c.Price)
+            builder.Property(c => c.PriceUSD)
                 .HasPrecision(18, 2);
 
-            builder.Property(c => c.Currency)
-                .HasMaxLength(4)
-                .IsRequired();
 
             builder.Property(c => c.Language)
                 .HasMaxLength(10);
