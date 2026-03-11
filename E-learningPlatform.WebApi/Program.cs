@@ -4,6 +4,7 @@ using E_learningPlatform.Application;
 using E_learningPlatform.Application.Settings;
 using E_learningPlatform.Infrastructure.Persistence;
 using E_learningPlatform.WebApi.Extensions;
+using E_learningPlatform.WebApi.Middlewares;
 using Microsoft.Extensions.FileProviders;
 using System.Text.Json.Serialization;
 
@@ -22,7 +23,7 @@ namespace E_learningPlatform.WebApi
                     options.JsonSerializerOptions.Converters
                         .Add(new JsonStringEnumConverter());
                 });
-
+            builder.Services.AddHttpContextAccessor();
             builder.Services.AddPersistenceServices(builder.Configuration);
             builder.Services.AddApplicationLayer();
 
@@ -50,6 +51,8 @@ namespace E_learningPlatform.WebApi
             builder.Services.AddSwaggerExtension();
 
             var app = builder.Build();
+
+            app.UseMiddleware<ErrorHandlerMiddleware>();
 
             var physicalPath = Path.Combine(
                 builder.Environment.ContentRootPath, "App_Data", "uploads");

@@ -12,6 +12,10 @@ using E_learningPlatform.Application.Features.Lessons.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.Lessons.DTO;
 using E_learningPlatform.Application.Features.Modules.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.Modules.DTO;
+using E_learningPlatform.Application.Features.Questions.Commands;
+using E_learningPlatform.Application.Features.Questions.DTO;
+using E_learningPlatform.Application.Features.Quizzes.Commands.CreateCommand;
+using E_learningPlatform.Application.Features.Quizzes.DTO;
 using E_learningPlatform.Application.Features.Sections.DTO;
 using E_learningPlatform.Application.Features.UserProfiles.Commands.CreateProfile;
 using E_learningPlatform.Application.Features.UserProfiles.DTO;
@@ -29,13 +33,22 @@ namespace E_learningPlatform.Application.Mappings
         public GeneralProfile()
         {
             CreateMap<UserProfile,UserProfileVm>().ReverseMap();
-            CreateMap<Course,CourseVm>().ReverseMap();
             CreateMap<Category,CategoryVm>().ReverseMap();
-            CreateMap<CourseCategory,CourseCategoryVm>().ReverseMap();
+            CreateMap<CreateCourseCommand, Course>()
+            .ForMember(dest => dest.CourseCategories, opt => opt.MapFrom(src => src.CourseCategory));
+
+            CreateMap<CourseCategoryVm, CourseCategory>()
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.CategoryId));
+
+            CreateMap<CourseCategory, CategorySimpleDto>()
+                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.CategoryId))
+                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Category.Name));
+
+            CreateMap<Course, CourseVm>()
+                .ForMember(dest => dest.Categories, opt => opt.MapFrom(src => src.CourseCategories));
+
             CreateMap<UserProfile, CreateProfileCommand>().ReverseMap();
-            CreateMap<Course, CreateCourseCommand>().ReverseMap();
-            CreateMap<Category, CreateCategoryCommand>().ReverseMap();
-            CreateMap<CourseCategory, CreateCourseCategoryCommand>().ReverseMap();
+            CreateMap<CreateCategoryCommand, Category>().ReverseMap();
             CreateMap<Section, CreateSectionCommand>().ReverseMap();
             CreateMap<Section, SectionVm>().ReverseMap();
             CreateMap<Section, SectionDetailedVm>().ReverseMap();
@@ -46,6 +59,27 @@ namespace E_learningPlatform.Application.Mappings
             CreateMap<LessonContent, LessonContentVm>()
                 .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.ContentType.ToString()));
             CreateMap<Enrollment,CreateEnrollmentCommand>().ReverseMap();
+            CreateMap<CreateQuizCommand, Quiz>();
+
+            CreateMap<QuestionDto, Question>()
+                .ForMember(dest => dest.QuestionOptions, opt => opt.MapFrom(src => src.Options));
+            CreateMap<QuestionOptionDto, QuestionOption>().ReverseMap();
+            CreateMap<AddQuestionCommand, Question>();
+
+            CreateMap<Quiz, QuizStudentDto>();
+
+            CreateMap<Question, QuestionStudentDto>()
+                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.QuestionOptions));
+
+            CreateMap<QuestionOption, OptionStudentDto>();
+
+            CreateMap<Quiz, QuizEditorDto>();
+
+            CreateMap<Question, QuestionEditorDto>()
+                .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.QuestionOptions));
+
+            CreateMap<QuestionOption, OptionEditorDto>();
+
             //CreateMap<>().ReverseMap();
             //CreateMap<>().ReverseMap();
             //CreateMap<>().ReverseMap();

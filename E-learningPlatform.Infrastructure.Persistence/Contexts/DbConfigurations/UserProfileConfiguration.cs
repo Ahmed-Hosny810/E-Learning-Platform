@@ -30,6 +30,13 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
             builder.Property(u => u.ProfilePictureUrl)
                 .HasMaxLength(500);
 
+            builder.Property(up => up.Email)
+                    .IsRequired()
+                    .HasMaxLength(256);
+
+            builder.HasIndex(up => up.Email)
+                .IsUnique();
+
             builder.Property(u => u.CreatedAt)
                 .IsRequired();
 

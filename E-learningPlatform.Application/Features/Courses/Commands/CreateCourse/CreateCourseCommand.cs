@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using E_learningPlatform.Application.Features.CourseCategories.DTO;
 using E_learningPlatform.Application.Helpers;
 using E_learningPlatform.Application.Interfaces.Repositories;
 using E_learningPlatform.Application.Mappings;
@@ -26,6 +27,7 @@ namespace E_learningPlatform.Application.Features.Courses.Commands.CreateCourse
         public string Language { get; set; }
         public string? Requirements { get; set; }
         public string? WhatYouWillLearn { get; set; }
+        public List<CourseCategoryVm> CourseCategory { get; set; }= new List<CourseCategoryVm>();
     }
     public partial class CreateCourseCommandHandler : IRequestHandler<CreateCourseCommand, Response<int>>
     {

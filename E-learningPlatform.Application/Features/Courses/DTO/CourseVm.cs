@@ -1,4 +1,5 @@
-﻿using E_learningPlatform.Domain.Enums;
+﻿using E_learningPlatform.Application.Features.Categories.DTO;
+using E_learningPlatform.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,5 +34,7 @@ namespace E_learningPlatform.Application.Features.Courses.DTO
         public decimal AverageRating { get; set; }
         public int TotalReviews { get; set; }
         public int DurationMinutes { get; set; }
+
+        public List<CategorySimpleDto> Categories { get; set; } = new();
     }
 }

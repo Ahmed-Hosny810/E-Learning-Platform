@@ -14,7 +14,7 @@ namespace E_learningPlatform.Application.Features.Categories.Queries.GetAllCateg
 {
     public class GetAllCategoriesQuery:IRequest<PagedResponse<IEnumerable<CategoryVm>>>
     {
-        public GetAllCategoriesParameters Parameter { get; set; }
+        public GetAllCategoriesParameters Parameter { get; set; }=new();
     }
 
     public class GetAllCategoriesQueryHandler : IRequestHandler<GetAllCategoriesQuery,PagedResponse<IEnumerable<CategoryVm>>>

@@ -27,8 +27,11 @@ namespace E_learningPlatform.Infrastructure.Persistence
             // Generic Repository
             services.AddScoped(typeof(IGenericRepositoryAsync<,>), typeof(GenericRepositoryAsync<,>));
 
+            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+
             // Specific Repositories
             services.AddScoped<ICategoryRepositoryAsync, CategoryRepositoryAsync>();
+
             services.AddScoped<ICourseRepositoryAsync, CourseRepositoryAsync>();
             services.AddScoped<ICourseCategoryRepositoryAsync, CourseCategoryRepositoryAsync>();
             services.AddScoped<IUserProfileRepositoryAsync, UserProfileRepositoryAsync>();
@@ -47,6 +50,14 @@ namespace E_learningPlatform.Infrastructure.Persistence
                 client.DefaultRequestHeaders.Add("X-Payment-Secret", configuration["PaymentSettings:WebhookSecret"]);
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
+
+            services.AddScoped<IQuizRepositoryAsync, QuizRepositoryAsync>();
+            services.AddScoped<IQuizAttemptRepositoryAsync, QuizAttemptRepositoryAsync>();
+            services.AddScoped<IQuestionRepositoryAsync, QuestionRepositoryAsync>();
+
+            //services.AddScoped<IQuestionOptionRepositoryAsync, QuestionOptionRepositoryAsync>();
+
+
 
             return services;
         }

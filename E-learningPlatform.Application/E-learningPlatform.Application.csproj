@@ -13,9 +13,13 @@
     <Folder Include="Features\LessonProgress\Commands\" />
     <Folder Include="Features\LessonProgress\DTO\" />
     <Folder Include="Features\LessonProgress\Queries\" />
+    <Folder Include="Features\Questions\Queries\" />
     <Folder Include="Features\SectionProgress\Commands\" />
     <Folder Include="Features\SectionProgress\DTO\" />
     <Folder Include="Features\SectionProgress\Queries\" />
+    <Folder Include="Features\UserAnswers\Commands\" />
+    <Folder Include="Features\UserAnswers\DTO\" />
+    <Folder Include="Features\UserAnswers\Queries\" />
   </ItemGroup>
 
 	<ItemGroup>

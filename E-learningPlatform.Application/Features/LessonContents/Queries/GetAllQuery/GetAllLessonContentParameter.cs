@@ -1,4 +1,5 @@
 ﻿using E_learningPlatform.Application.Parameters;
+using E_learningPlatform.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,7 @@ namespace E_learningPlatform.Application.Features.LessonContents.Queries.GetAllQ
     public class LessonContentFilter
     {
         public int? LessonId { get; set; }
-        public string ContentType { get; set; }
+        public LessonContentType? ContentType { get; set; }
     }
     public class LessonContentIncludes
     {

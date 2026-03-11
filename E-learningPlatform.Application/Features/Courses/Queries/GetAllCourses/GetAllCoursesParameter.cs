@@ -11,7 +11,7 @@ namespace E_learningPlatform.Application.Features.Courses.Queries.GetAllCourses
     public class GetAllCoursesParameter:RequestParameter<CourseOrderKey>
     {
         public CourseFilter Filter { get; set; } = new();
-        public CourseIncludes Includes { get; set; } 
+        public CourseIncludes Includes { get; set; } = new();
     }
     public class CourseFilter
     {

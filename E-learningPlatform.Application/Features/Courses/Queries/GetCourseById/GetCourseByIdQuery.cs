@@ -17,7 +17,7 @@ namespace E_learningPlatform.Application.Features.Courses.Queries.GetCourseById
     public class GetCourseByIdQuery:IRequest<Response<CourseVm>>
     {
         public int Id { get; set; }
-        public CourseIncludes Includes { get; set; }
+        public CourseIncludes? Includes { get; set; }
     }
     public class GetCourseByIdQueryHandler : IRequestHandler<GetCourseByIdQuery, Response<CourseVm>>
     {

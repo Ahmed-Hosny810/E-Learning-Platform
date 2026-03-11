@@ -2,7 +2,7 @@
 using E_learningPlatform.Application.Interfaces.Repositories;
 using E_learningPlatform.Domain.Models;
 using E_learningPlatform.Infrastructure.Persistence.Contexts;
-using E_learningPlatform.Infrastructure.Persistence.QueryHelpers;
+using E_learningPlatform.Infrastructure.Persistence.QueryExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,14 +23,10 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
 
         public async Task<LessonContent> GetLessonContentByIdAsync(int id, LessonContentIncludes includes)
         {
-            var query = _context.LessonContents.AsQueryable();
-
-            var lessonContent = await new LessonContentQueryHelper(query)
+          return await _context.LessonContents
+                .AsQueryable()
                 .ApplyIncludes(includes)
-                .Build()
-                .FirstOrDefaultAsync(c => c.Id == id);
-
-            return lessonContent;
+                .FirstOrDefaultAsync(lc => lc.Id == id);
         }
 
         public async Task<int> GetMaxOrderByLessonId(int lessonId)

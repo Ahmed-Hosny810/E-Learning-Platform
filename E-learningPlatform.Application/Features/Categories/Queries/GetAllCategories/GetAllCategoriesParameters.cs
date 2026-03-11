@@ -12,7 +12,7 @@ namespace E_learningPlatform.Application.Features.Categories.Queries.GetAllCateg
     public class GetAllCategoriesParameters:RequestParameter<CategoryOrderKey>
     {
         public CategoryFilter Filter { get; set; } = new();
-        public CategoryIncludes Includes { get; set; } 
+        public CategoryIncludes Includes { get; set; }= new();
     }
     public class CategoryFilter
     {

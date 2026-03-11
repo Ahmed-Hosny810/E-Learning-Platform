@@ -56,6 +56,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
         public async Task<ActionResult<Response<int>>> Update(UpdateProfileCommand command)
         {
+
             return Ok(await _mediator.Send(command));
         }
 

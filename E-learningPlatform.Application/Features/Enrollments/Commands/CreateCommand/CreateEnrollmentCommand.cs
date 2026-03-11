@@ -44,7 +44,6 @@ namespace E_learningPlatform.Application.Features.Enrollments.Commands.CreateCom
 
             var enrollment = _mapper.Map<Enrollment>(request);
 
-            //enrollment.UserId = UserId;
             enrollment.PurchasePrice = course.PriceUSD; 
             enrollment.IsPaid = false; 
             enrollment.EnrolledAt = DateTime.UtcNow;
@@ -52,7 +51,7 @@ namespace E_learningPlatform.Application.Features.Enrollments.Commands.CreateCom
             enrollment.IsActive = false;
 
             // Check if student is already enrolled
-            var isAlreadyEnrolled = await _enrollmentRepository.IsUserEnrolled(enrollment.UserId, request.CourseId);
+            var isAlreadyEnrolled = await _enrollmentRepository.IsUserEnrolled("userIdFromUserService", request.CourseId);
             if (isAlreadyEnrolled)
             {
                 throw new ApiException("You are already enrolled in this course.");

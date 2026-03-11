@@ -31,6 +31,11 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
         public DbSet<LessonProgress> LessonProgress { get; set; }
         public DbSet<SectionProgress>  SectionProgress { get; set; }
         public DbSet<Payment>  Payments { get; set; }
+        public DbSet<Quiz>  Quizzes { get; set; }
+        public DbSet<QuizAttempt> QuizAttempts { get; set; }
+        public DbSet<Question>  Questions { get; set; }
+        public DbSet<QuestionOption>  QuestionOptions { get; set; }
+        public DbSet<UserAnswer>  UserAnswers { get; set; }
 
 
 
@@ -47,6 +52,12 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
             modelBuilder.ApplyConfiguration(new LessonProgressConfiguration());
             modelBuilder.ApplyConfiguration(new SectionProgressConfiguration());
             modelBuilder.ApplyConfiguration(new PaymentConfiguration());
+
+            modelBuilder.ApplyConfiguration(new QuizConfiguration());
+            modelBuilder.ApplyConfiguration(new QuizAttemptConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionConfiguration());
+            modelBuilder.ApplyConfiguration(new QuestionOptionConfiguration());
+            modelBuilder.ApplyConfiguration(new UserAnswerConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -30,9 +30,9 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
        
         [HttpPost("GetCourseById/{id:int}")]
-        public async Task<ActionResult<Response<CourseVm>>> Get(int Id, CourseIncludes includes)
+        public async Task<ActionResult<Response<CourseVm>>> Get(int id, CourseIncludes includes)
         {
-            return Ok(await _mediator.Send(new GetCourseByIdQuery { Id = Id, Includes = includes }));
+            return Ok(await _mediator.Send(new GetCourseByIdQuery { Id = id, Includes = includes }));
         }
 
 
