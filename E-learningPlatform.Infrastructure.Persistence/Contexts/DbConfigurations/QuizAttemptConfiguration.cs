@@ -13,21 +13,44 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
     {
         public void Configure(EntityTypeBuilder<QuizAttempt> builder)
         {
+            builder.ToTable("QuizAttempts");  
+
             builder.HasKey(qa => qa.Id);
 
-            // Precision for percentages like 88.50%
-            builder.Property(qa => qa.Percentage).HasPrecision(5, 2);
+            builder.Ignore(qa => qa.Percentage);
 
-            // Security: Don't delete student history if a Quiz is deleted
+            builder.Property(qa => qa.Status)
+                .IsRequired()
+                .HasMaxLength(20);           
+
+            builder.Property(qa => qa.Score)
+                .HasDefaultValue(0);          
+
+            builder.Property(qa => qa.TotalPoints)
+                .HasDefaultValue(0);          
+
+            builder.Property(qa => qa.StudentId)
+                .IsRequired();                 
+
+
             builder.HasOne(qa => qa.Quiz)
                    .WithMany(q => q.QuizAttempts)
                    .HasForeignKey(qa => qa.QuizId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Restrict); 
+
+            builder.HasOne(qa => qa.Enrollment)
+                   .WithMany()
+                   .HasForeignKey(qa => qa.EnrollmentId)
+                   .OnDelete(DeleteBehavior.Restrict); 
 
             builder.HasMany(qa => qa.UserAnswers)
                    .WithOne(ua => ua.QuizAttempt)
                    .HasForeignKey(ua => ua.QuizAttemptId)
-                   .OnDelete(DeleteBehavior.Cascade);
+                   .OnDelete(DeleteBehavior.Cascade); 
+
+            // Indexes
+            builder.HasIndex(qa => new { qa.StudentId, qa.QuizId })
+                .HasDatabaseName("IX_QuizAttempts_StudentId_QuizId"); 
         }
     }
 }

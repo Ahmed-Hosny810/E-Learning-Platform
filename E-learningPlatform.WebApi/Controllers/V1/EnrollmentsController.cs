@@ -43,7 +43,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpPost("Update/{id:int}")]
+        [HttpPost("{id:int}")]
 
         public async Task<ActionResult<Response<int>>> UpdateEnrollmentProgress(UpdateEnrollmentProgressCommand command)
         {
@@ -51,7 +51,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Response<int>>> Delete(int Id)
         {
             return Ok(await _mediator.Send(new DeleteEnrollmentCommand { Id = Id }));

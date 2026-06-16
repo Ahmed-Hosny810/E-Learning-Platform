@@ -11,29 +11,29 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Application.Features.Quizzes.Queries.GetByIdQuery
 {
-    public class GetQuizForEditorQuery : IRequest<Response<QuizEditorDto>>
+    public class GetQuizForReviewerQuery : IRequest<Response<ReviewerQuizDto>>
     {
         public int QuizId { get; set; }
     }
 
-    public class GetQuizForEditorHandler : IRequestHandler<GetQuizForEditorQuery, Response<QuizEditorDto>>
+    public class GetQuizForReviewerHandler : IRequestHandler<GetQuizForReviewerQuery, Response<ReviewerQuizDto>>
     {
         private readonly IQuizRepositoryAsync _quizRepository;
         private readonly IMapper _mapper;
 
-        public GetQuizForEditorHandler(IQuizRepositoryAsync quizRepository, IMapper mapper)
+        public GetQuizForReviewerHandler(IQuizRepositoryAsync quizRepository, IMapper mapper)
         {
             _quizRepository = quizRepository;
             _mapper = mapper;
         }
 
-        public async Task<Response<QuizEditorDto>> Handle(GetQuizForEditorQuery request, CancellationToken cancellationToken)
+        public async Task<Response<ReviewerQuizDto>> Handle(GetQuizForReviewerQuery request, CancellationToken cancellationToken)
         {
             var quiz = await _quizRepository.GetQuizWithQuestionsAsync(request.QuizId);
             if (quiz == null) throw new Exception("Quiz not found");
 
-            var quizDto = _mapper.Map<QuizEditorDto>(quiz);
-            return new Response<QuizEditorDto>(quizDto);
+            var quizDto = _mapper.Map<ReviewerQuizDto>(quiz);
+            return new Response<ReviewerQuizDto>(quizDto);
         }
     }
 }

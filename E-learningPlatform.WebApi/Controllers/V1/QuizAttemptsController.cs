@@ -1,5 +1,7 @@
 ﻿using Asp.Versioning;
+using E_learningPlatform.Application.Features.QuizAttempts.Commands.AbandonCommand;
 using E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCommand;
+using E_learningPlatform.Application.Features.QuizAttempts.Commands.SubmitCommand;
 using E_learningPlatform.Application.Features.QuizAttempts.DTO;
 using E_learningPlatform.Application.Features.QuizAttempts.Queries.GetAll;
 using E_learningPlatform.Application.Features.QuizAttempts.Queries.GetById;
@@ -21,7 +23,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         public QuizAttemptsController(IMediator mediator) => _mediator = mediator;
 
 
-        [HttpPost("GetResult")]
+        [HttpGet("{attemptId}")]
         public async Task<ActionResult<Response<QuizResultDto>>> GetQuizResult(int attemptId)
         {
             return Ok(await _mediator.Send(new GetQuizAttemptResultQuery { AttemptId = attemptId }));

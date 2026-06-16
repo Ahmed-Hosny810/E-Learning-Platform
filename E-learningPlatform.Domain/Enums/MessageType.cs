@@ -1,4 +1,5 @@
-﻿using System;
+﻿using E_learningPlatform.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,12 +7,10 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Domain.Enums
 {
-    public enum PaymentStatus
+    public enum MessageType
     {
-        Pending = 0,
-        Success = 1,
-        Failed = 2,
-        Refunded = 3,
-        Cancelled = 4
+        User = 0,
+        System = 1,
+
     }
 }

@@ -21,8 +21,8 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
         public CoursesController(IMediator mediator)=> _mediator = mediator;
 
-        [HttpPost("GetAllCourses")]
-        public async Task<ActionResult<PagedResponse<IEnumerable<CourseVm>>>> Get(GetAllCoursesParameter filter)
+        [HttpGet("GetAllCourses")]
+        public async Task<ActionResult<PagedResponse<IEnumerable<CourseVm>>>> Get([FromQuery]GetAllCoursesParameter filter)
         {
 
             return Ok(await _mediator.Send(new GetAllCoursesQuery() { Parameter = filter }));
@@ -43,7 +43,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpPost("Update/{id:int}")]
+        [HttpPut("{id:int}")]
         
         public async Task<ActionResult<Response<int>>> Update(UpdateCourseCommand command)
         {
@@ -51,7 +51,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
        public async Task<ActionResult<Response<int>>> Delete(int Id)
         {
             return Ok(await _mediator.Send(new DeleteCategoryByIdCommand { Id = Id }));

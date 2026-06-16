@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Infrastructure.Persistence.Services
 {
-    public class AuthenticatedUserService: IAuthenticatedUserService
+    public class UserService: IUserService
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public AuthenticatedUserService(IHttpContextAccessor httpContextAccessor)
+        public UserService(IHttpContextAccessor httpContextAccessor)
         {
             _httpContextAccessor = httpContextAccessor;
         }

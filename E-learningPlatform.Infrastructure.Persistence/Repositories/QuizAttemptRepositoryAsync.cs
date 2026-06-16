@@ -1,5 +1,6 @@
 ﻿using E_learningPlatform.Application.Interfaces.Repositories;
 using E_learningPlatform.Application.Wrappers;
+using E_learningPlatform.Domain.Constants;
 using E_learningPlatform.Domain.Models;
 using E_learningPlatform.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +24,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
         public async Task<QuizAttempt?> GetActiveAttemptAsync(string studentId, int quizId)
         {
             return await _context.QuizAttempts
-                .Where(q=>q.StudentId==studentId&&q.QuizId == quizId && q.Status == "InProgress")
+                .Where(q=>q.StudentId==studentId&&q.QuizId == quizId&&q.Status == AttemptStatus.InProgress)
                 .OrderByDescending(q => q.StartedAt)
                 .FirstOrDefaultAsync();
         }

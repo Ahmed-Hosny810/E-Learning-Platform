@@ -22,7 +22,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
 
         [HttpPost("GetQuizById/{id:int}")]
-        public async Task<ActionResult<Response<QuizStudentDto>>> Get(int id)
+        public async Task<ActionResult<Response<StudentQuizDto>>> Get(int id)
         {
             return Ok(await _mediator.Send(new GetQuizForStudentQuery { QuizId = id }));
         }
@@ -35,7 +35,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpPut("Update/{id:int}")]
+        [HttpPut("{id:int}")]
 
         public async Task<ActionResult<Response<int>>> Update(UpdateQuizCommand command)
         {
@@ -43,7 +43,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Response<int>>> Delete(int Id)
         {
             return Ok(await _mediator.Send(new DeleteQuizCommand { Id = Id }));

@@ -45,7 +45,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpPut("Update/{id:int}")]
+        [HttpPut("{id:int}")]
 
         public async Task<ActionResult<Response<int>>> Update(UpdateSectionCommand command)
         {
@@ -53,7 +53,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Response<int>>> Delete(int Id)
         {
             return Ok(await _mediator.Send(new DeleteSectionCommand { Id = Id }));

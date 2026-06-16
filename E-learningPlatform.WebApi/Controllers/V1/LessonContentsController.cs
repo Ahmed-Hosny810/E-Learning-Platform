@@ -31,7 +31,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpDelete("Delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             return Ok(await _mediator.Send(new DeleteLessonContentCommand { Id = id }));

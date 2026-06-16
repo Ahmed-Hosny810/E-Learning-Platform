@@ -27,8 +27,9 @@ namespace E_learningPlatform.Infrastructure.Persistence
             // Generic Repository
             services.AddScoped(typeof(IGenericRepositoryAsync<,>), typeof(GenericRepositoryAsync<,>));
 
-            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
+            services.AddScoped<IUserService, UserService>();
 
+            services.AddSignalR();
             // Specific Repositories
             services.AddScoped<ICategoryRepositoryAsync, CategoryRepositoryAsync>();
 
@@ -41,6 +42,14 @@ namespace E_learningPlatform.Infrastructure.Persistence
             services.AddScoped<IEnrollmentRepositoryAsync, EnrollmentRepositoryAsync>();
             services.AddScoped<IPaymentRepositoryAsync, PaymentRepositoryAsync>();
             services.AddTransient<IFileStorageService,LocalFileStorageService>();
+            services.AddScoped<IQuizRepositoryAsync, QuizRepositoryAsync>();
+            services.AddScoped<IQuizAttemptRepositoryAsync, QuizAttemptRepositoryAsync>();
+            services.AddScoped<IQuestionRepositoryAsync, QuestionRepositoryAsync>();
+            services.AddScoped<INotificationService, NotificationService>();
+            services.AddScoped<INotificationRepositoryAsync, NotificationRepositoryAsync>();
+            services.AddScoped<IMessageRepositoryAsync, MessageRepositoryAsync>();
+            services.AddScoped<IRealtimeService, RealtimeService>();
+            services.AddScoped<IRealtimeService, RealtimeService>();
 
             services.AddHttpClient<IPaymentService, PaymentService>(client =>
             {
@@ -51,11 +60,7 @@ namespace E_learningPlatform.Infrastructure.Persistence
                 client.DefaultRequestHeaders.Add("Accept", "application/json");
             }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
-            services.AddScoped<IQuizRepositoryAsync, QuizRepositoryAsync>();
-            services.AddScoped<IQuizAttemptRepositoryAsync, QuizAttemptRepositoryAsync>();
-            services.AddScoped<IQuestionRepositoryAsync, QuestionRepositoryAsync>();
 
-            //services.AddScoped<IQuestionOptionRepositoryAsync, QuestionOptionRepositoryAsync>();
 
 
 

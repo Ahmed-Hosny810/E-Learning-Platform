@@ -36,7 +36,11 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
         public DbSet<Question>  Questions { get; set; }
         public DbSet<QuestionOption>  QuestionOptions { get; set; }
         public DbSet<UserAnswer>  UserAnswers { get; set; }
+        public DbSet<DiscussionPost> DiscussionPosts { get; set; }
+        public DbSet<DiscussionComment> DiscussionComments { get; set; }
 
+        public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Message> Messages { get; set; }  
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -58,6 +62,12 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts
             modelBuilder.ApplyConfiguration(new QuestionConfiguration());
             modelBuilder.ApplyConfiguration(new QuestionOptionConfiguration());
             modelBuilder.ApplyConfiguration(new UserAnswerConfiguration());
+            modelBuilder.ApplyConfiguration(new DiscussionPostConfiguration());
+            modelBuilder.ApplyConfiguration(new DiscussionCommentConfiguration());
+
+            modelBuilder.ApplyConfiguration(new NotificationConfiguration());
+            modelBuilder.ApplyConfiguration(new MessageConfiguration());
+            modelBuilder.ApplyConfiguration(new CourseReviewConfiguration());
         }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

@@ -2,6 +2,7 @@
 using E_learningPlatform.Application.Features.Lessons.DTO;
 using E_learningPlatform.Application.Features.Lessons.Queries.GetAllQuery;
 using E_learningPlatform.Application.Interfaces.Repositories;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Application.Wrappers;
 using MediatR;
 using System;
@@ -32,7 +33,7 @@ namespace E_learningPlatform.Application.Features.Lessons.Queries.GetAllQuery
             var pagedLessons = await _lessonRepository.GetLessonsPagedResponseAsync(request.Parameter.Filter, request.Parameter.Includes,
                         request.Parameter.OrderKey,request.Parameter.OrderDescending, request.Parameter.PageNumber, request.Parameter.PageSize);
             var lessonVms = _mapper.Map<IEnumerable<LessonVm>>(pagedLessons.Data);
-             return new PagedResponse<IEnumerable<LessonVm>>(lessonVms, request.Parameter.PageNumber, request.Parameter.PageSize, pagedLessons.TotalCount);
+                return new PagedResponse<IEnumerable<LessonVm>>(lessonVms, request.Parameter.PageNumber, request.Parameter.PageSize, pagedLessons.TotalCount);
         }
     }
 }

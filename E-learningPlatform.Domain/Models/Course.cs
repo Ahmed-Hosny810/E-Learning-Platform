@@ -31,6 +31,9 @@ namespace E_learningPlatform.Domain.Models
 
         public bool IsActive { get; set; }
         public  ICollection<CourseCategory> CourseCategories { get; set; } = new HashSet<CourseCategory>();
+        public ICollection<CourseReview> CourseReviews { get; set; } = new HashSet<CourseReview>();
         public  ICollection<Section> Sections { get; set; } = new HashSet<Section>();
+        public ICollection<DiscussionPost> DiscussionPosts { get; set; } = new HashSet<DiscussionPost>();
+        public ICollection<Message> Messages { get; set; } = new HashSet<Message>();
     }
 }

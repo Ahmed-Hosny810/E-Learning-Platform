@@ -12,5 +12,6 @@ namespace E_learningPlatform.Application.Interfaces.Repositories
     {
         Task<int> GetMaxOrderByLessonId(int lessonId);
         Task<LessonContent> GetLessonContentByIdAsync(int id, LessonContentIncludes includes);
+        Task<IEnumerable<LessonContent>> GetLessonContentByLessonIdAsync(int id);
     }
 }

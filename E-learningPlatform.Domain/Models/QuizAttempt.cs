@@ -1,4 +1,5 @@
 ﻿using E_learningPlatform.Domain.Common;
+using E_learningPlatform.Domain.Constants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,14 +16,14 @@ namespace E_learningPlatform.Domain.Models
         public string StudentId { get; set; } = null!;
 
         // Timing data
-        public DateTime StartedAt { get; set; } = DateTime.UtcNow;
+        public DateTime StartedAt { get; set; }
         public DateTime? CompletedAt { get; set; }
         public DateTime? SubmittedAt { get; set; }
 
         // Scoring
         public int Score { get; set; }
         public int TotalPoints { get; set; }
-        public decimal Percentage { get; set; }
+        public decimal Percentage => TotalPoints == 0 ? 0 : Math.Round((decimal)Score / TotalPoints * 100, 2);
         public bool IsPassed { get; set; }
 
         // Tracking retries
@@ -34,5 +35,17 @@ namespace E_learningPlatform.Domain.Models
         public Quiz Quiz { get; set; } = null!;
         public Enrollment Enrollment { get; set; } = null!;
         public ICollection<UserAnswer> UserAnswers { get; set; } = new List<UserAnswer>();
+
+        public int GetRemainingSeconds(int timeLimitMinutes)
+        {
+            if (this.Status == AttemptStatus.Completed) return 0;
+
+            var elapsed = DateTime.UtcNow - StartedAt;
+            var remaining = TimeSpan.FromMinutes(timeLimitMinutes) - elapsed;
+
+            return Math.Max(0, (int)remaining.TotalSeconds);
+        }
+        public bool IsExpired(int timeLimitMinutes)
+                    => GetRemainingSeconds(timeLimitMinutes) <= 0;
     }
 }

@@ -21,7 +21,7 @@ namespace E_learningPlatform.Application.Features.Enrollments.Commands.CreateCom
     public class CreateEnrollmentCommandHandler : IRequestHandler<CreateEnrollmentCommand, Response<string>>
     {
         private readonly IEnrollmentRepositoryAsync _enrollmentRepository;
-        private readonly ICourseRepositoryAsync _courseRepository; // Add this
+        private readonly ICourseRepositoryAsync _courseRepository; 
         private readonly IMapper _mapper;
         private readonly IPaymentService _paymentService;
 
@@ -38,11 +38,27 @@ namespace E_learningPlatform.Application.Features.Enrollments.Commands.CreateCom
 
         public async Task<Response<string>> Handle(CreateEnrollmentCommand request, CancellationToken cancellationToken)
         {
-            // 1. Get the course to find the ACTUAL current price
+            // Check if student is already enrolled
+            var isAlreadyEnrolled = await _enrollmentRepository.IsUserEnrolled("userIdFromUserService", request.CourseId);
+            if (isAlreadyEnrolled)
+            {
+                throw new ApiException("You are already enrolled in this course.");
+            }
+            
             var course = await _courseRepository.GetByIdAsync(request.CourseId);
             if (course == null) throw new ApiException("Course not found");
 
+
             var enrollment = _mapper.Map<Enrollment>(request);
+
+            if (course.PriceUSD == 0)
+            {
+                enrollment.IsPaid = true;
+                enrollment.IsActive = true;
+                await _enrollmentRepository.AddAsync(enrollment);
+                return new Response<string>("free"); 
+            }
+
 
             enrollment.PurchasePrice = course.PriceUSD; 
             enrollment.IsPaid = false; 
@@ -50,15 +66,10 @@ namespace E_learningPlatform.Application.Features.Enrollments.Commands.CreateCom
             enrollment.ProgressPercentage = 0;
             enrollment.IsActive = false;
 
-            // Check if student is already enrolled
-            var isAlreadyEnrolled = await _enrollmentRepository.IsUserEnrolled("userIdFromUserService", request.CourseId);
-            if (isAlreadyEnrolled)
-            {
-                throw new ApiException("You are already enrolled in this course.");
-            }
+            var checkoutUrl = await _paymentService.CreatePaymentSession(enrollment.Id, enrollment.PurchasePrice);
+
             await _enrollmentRepository.AddAsync(enrollment);
 
-            var checkoutUrl = await _paymentService.CreatePaymentSession(enrollment.Id, enrollment.PurchasePrice);
 
             return new Response<string>(checkoutUrl);
         }

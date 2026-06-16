@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>E_learningPlatform.Application</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
@@ -13,6 +13,8 @@
     <Folder Include="Features\LessonProgress\Commands\" />
     <Folder Include="Features\LessonProgress\DTO\" />
     <Folder Include="Features\LessonProgress\Queries\" />
+    <Folder Include="Features\Notifications\Commands\" />
+    <Folder Include="Features\Notifications\Queries\" />
     <Folder Include="Features\Questions\Queries\" />
     <Folder Include="Features\SectionProgress\Commands\" />
     <Folder Include="Features\SectionProgress\DTO\" />
@@ -27,10 +29,10 @@
 	</ItemGroup>	
 	
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="16.0.0" />
+    <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
-    <PackageReference Include="MediatR" Version="14.0.0" />
+    <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
   <ItemGroup>

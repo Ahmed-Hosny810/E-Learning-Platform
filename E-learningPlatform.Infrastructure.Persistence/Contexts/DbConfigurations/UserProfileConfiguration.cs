@@ -18,6 +18,9 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
             builder.Property(up => up.UserId)
                    .IsRequired()
                    .HasMaxLength(150);
+
+            builder.HasAlternateKey(u => u.UserId);
+
             builder.HasIndex(u => u.UserId)
                 .IsUnique();
             builder.Property(u => u.DisplayName)

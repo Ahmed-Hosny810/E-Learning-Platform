@@ -16,20 +16,20 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
         public QuestionsController(IMediator mediator) => _mediator = mediator;
 
-        [HttpPost("Add")]
+        [HttpPost]
         public async Task<ActionResult<Response<int>>> Add(AddQuestionCommand command)
         {
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpPut("Update/{id:int}")]
+        [HttpPut("{id:int}")]
         public async Task<ActionResult<Response<int>>> Update(int id, UpdateQuestionCommand command)
         {
             if (id != command.Id) return BadRequest("Question ID mismatch.");
             return Ok(await _mediator.Send(command));
         }
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Response<int>>> Delete(int id)
         {
             return Ok(await _mediator.Send(new DeleteQuestionCommand { Id = id }));

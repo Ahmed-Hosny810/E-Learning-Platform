@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Application.Features.Quizzes.Queries.GetByIdQuery
 {
-    public class GetQuizForStudentQuery : IRequest<Response<QuizStudentDto>>
+    public class GetQuizForStudentQuery : IRequest<Response<StudentQuizDto>>
     {
         public int QuizId { get; set; }
     }
 
-    public class GetQuizForStudentHandler : IRequestHandler<GetQuizForStudentQuery, Response<QuizStudentDto>>
+    public class GetQuizForStudentHandler : IRequestHandler<GetQuizForStudentQuery, Response<StudentQuizDto>>
     {
         private readonly IQuizRepositoryAsync _quizRepository;
         private readonly IMapper _mapper;
@@ -27,12 +27,12 @@ namespace E_learningPlatform.Application.Features.Quizzes.Queries.GetByIdQuery
             _mapper = mapper;
         }
 
-        public async Task<Response<QuizStudentDto>> Handle(GetQuizForStudentQuery request, CancellationToken cancellationToken)
+        public async Task<Response<StudentQuizDto>> Handle(GetQuizForStudentQuery request, CancellationToken cancellationToken)
         {
             var quiz = await _quizRepository.GetQuizWithQuestionsAsync(request.QuizId);
             if (quiz == null) throw new Exception("Quiz not found");
 
-            var quizDto = _mapper.Map<QuizStudentDto>(quiz);
+            var quizDto = _mapper.Map<StudentQuizDto>(quiz);
 
             // Logic: Shuffle if enabled
             if (quiz.ShuffleQuestions)
@@ -48,7 +48,7 @@ namespace E_learningPlatform.Application.Features.Quizzes.Queries.GetByIdQuery
                 }
             }
 
-            return new Response<QuizStudentDto>(quizDto);
+            return new Response<StudentQuizDto>(quizDto);
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using E_learningPlatform.Application.Behaviours;
+using E_learningPlatform.Application.Features.LessonContents.DTO;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@ namespace E_learningPlatform.Application
             services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddTransient<LessonContentVm>();
         }
     }
 }

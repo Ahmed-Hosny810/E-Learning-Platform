@@ -29,6 +29,15 @@ namespace E_learningPlatform.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync(lc => lc.Id == id);
         }
 
+        public async Task<IEnumerable<LessonContent>> GetLessonContentByLessonIdAsync(int lessonId)
+        {
+            return await _context.LessonContents
+                     .AsNoTracking() 
+                     .Where(lc => lc.LessonId == lessonId)
+                     .OrderBy(lc => lc.DisplayOrder) 
+                     .ToListAsync();
+        }
+
         public async Task<int> GetMaxOrderByLessonId(int lessonId)
         {
             return await  _context.LessonContents

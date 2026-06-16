@@ -28,9 +28,10 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
                 .HasDefaultValue(true);
 
             builder.HasOne(e => e.UserProfile)
-                .WithMany(u => u.Enrollments)
-                .HasForeignKey(e => e.UserProfileId)
-                .OnDelete(DeleteBehavior.Restrict);
+                    .WithMany(u => u.Enrollments)
+                    .HasForeignKey(e => e.UserId)
+                    .HasPrincipalKey(u => u.UserId)      
+                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(e => e.Course)
                 .WithMany()
@@ -38,7 +39,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
                 .OnDelete(DeleteBehavior.Cascade);
 
             // INDEXES
-            builder.HasIndex(e => new { e.UserProfileId, e.CourseId })
+            builder.HasIndex(e => new { e.UserId, e.CourseId })
                 .IsUnique();
 
             builder.HasIndex(e => e.CourseId);

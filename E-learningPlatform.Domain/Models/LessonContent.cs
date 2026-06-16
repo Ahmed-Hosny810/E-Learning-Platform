@@ -17,8 +17,6 @@ namespace E_learningPlatform.Domain.Models
         public int? DurationSeconds { get; set; }
         public int DisplayOrder { get; set; }
         public bool IsDownloadable { get; set; }
-
-        
         public string? FileName { get; set; }
         public long? FileSizeBytes { get; set; }
         public string? MimeType { get; set; }

@@ -31,9 +31,9 @@ namespace E_learningPlatform.WebApi.Controllers.V1
 
 
         [HttpPost("GetLessonById/{id:int}")]
-        public async Task<ActionResult<Response<LessonDetailedVm>>> Get(int Id, LessonIncludes includes)
+        public async Task<ActionResult<Response<LessonVm>>> Get(int id, LessonIncludes includes)
         {
-            return Ok(await _mediator.Send(new GetLessonByIdQuery { Id = Id, Includes = includes }));
+            return Ok(await _mediator.Send(new GetLessonByIdQuery { Id = id, Includes = includes }));
         }
 
 
@@ -44,7 +44,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpPut("Update/{id:int}")]
+        [HttpPut("{id:int}")]
 
         public async Task<ActionResult<Response<int>>> Update(UpdateLessonCommand command)
         {
@@ -52,7 +52,7 @@ namespace E_learningPlatform.WebApi.Controllers.V1
         }
 
 
-        [HttpDelete("Delete/{id:int}")]
+        [HttpDelete("{id:int}")]
         public async Task<ActionResult<Response<int>>> Delete(int Id)
         {
             return Ok(await _mediator.Send(new DeleteLessonCommand { Id = Id }));

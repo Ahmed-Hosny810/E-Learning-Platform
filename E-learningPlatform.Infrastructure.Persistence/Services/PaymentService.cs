@@ -23,7 +23,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Services
         {
             var requestBody = new { EnrollmentId = enrollmentId, Amount = amount };
 
-            // This calls your Payment Minimal API
+            
             var response = await _httpClient.PostAsJsonAsync("api/payments/create-session", requestBody);
 
             if (!response.IsSuccessStatusCode)

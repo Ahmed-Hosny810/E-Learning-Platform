@@ -13,10 +13,9 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
     {
         public void Configure(EntityTypeBuilder<Payment> builder)
         {
-            builder.HasKey(p => p.Id);
+            builder.ToTable("Payments");
 
-            builder.Property(p => p.EnrollmentId)
-                .IsRequired();
+            builder.HasKey(p => p.Id);
 
             builder.Property(p => p.ProviderPaymentId)
                 .IsRequired()
@@ -28,24 +27,25 @@ namespace E_learningPlatform.Infrastructure.Persistence.Contexts.DbConfiguration
 
             builder.Property(p => p.Currency)
                 .IsRequired()
-                .HasMaxLength(3)  
-                .IsFixedLength(); 
+                .HasMaxLength(3)
+                .IsFixedLength();
 
             builder.Property(p => p.PaymentMethod)
-                .HasMaxLength(50);
+                .HasMaxLength(50)
+                .IsRequired(false);
 
             builder.Property(p => p.Status)
                 .IsRequired()
-                .HasConversion<string>()
                 .HasMaxLength(20);
 
-            // Relationship
+            builder.Property(p => p.FailureReason)  
+                .HasMaxLength(500);
+
             builder.HasOne(p => p.Enrollment)
                 .WithMany(e => e.Payments)
                 .HasForeignKey(p => p.EnrollmentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);  
 
-            // Indexes
             builder.HasIndex(p => p.EnrollmentId)
                 .HasDatabaseName("IX_Payments_EnrollmentId");
 

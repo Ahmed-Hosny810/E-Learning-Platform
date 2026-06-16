@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Application.Interfaces.Services
 {
-    public interface IAuthenticatedUserService
+    public interface IUserService
     {
         string? UserId { get; }    
         string? Email { get; }       

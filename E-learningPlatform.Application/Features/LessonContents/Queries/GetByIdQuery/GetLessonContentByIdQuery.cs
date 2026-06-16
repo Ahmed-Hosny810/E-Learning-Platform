@@ -3,6 +3,7 @@ using E_learningPlatform.Application.Exceptions;
 using E_learningPlatform.Application.Features.LessonContents.DTO;
 using E_learningPlatform.Application.Features.LessonContents.Queries.GetAllQuery;
 using E_learningPlatform.Application.Interfaces.Repositories;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Application.Wrappers;
 using E_learningPlatform.Domain.Models;
 using MediatR;
@@ -35,7 +36,6 @@ namespace E_learningPlatform.Application.Features.LessonContents.Queries.GetById
             if (lessonContent == null) throw new ApiException("Lesson Content not found ");
 
             var lessonContentVm = _mapper.Map<LessonContentVm>(lessonContent);
-
             return new Response<LessonContentVm>(lessonContentVm);
         }
     }   

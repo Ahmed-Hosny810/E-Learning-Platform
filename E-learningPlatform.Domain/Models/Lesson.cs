@@ -21,6 +21,7 @@ namespace E_learningPlatform.Domain.Models
         public bool IsFree { get; set; }
         public bool IsPublished { get; set; }
         public Section? Section { get; set; }
-        public  ICollection<LessonContent> LessonContents { get; set; }
+        public  ICollection<LessonContent> LessonContents { get; set; }= new HashSet<LessonContent>();
+        public ICollection<DiscussionPost> DiscussionPosts { get; set; } = new HashSet<DiscussionPost>();
     }
 }

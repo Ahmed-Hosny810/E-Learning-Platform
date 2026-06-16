@@ -3,6 +3,7 @@ using E_learningPlatform.Application.Exceptions;
 using E_learningPlatform.Application.Features.Lessons.DTO;
 using E_learningPlatform.Application.Features.Lessons.Queries.GetAllQuery;
 using E_learningPlatform.Application.Interfaces.Repositories;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Application.Wrappers;
 using MediatR;
 using System;
@@ -13,12 +14,12 @@ using System.Threading.Tasks;
 
 namespace E_learningPlatform.Application.Features.Lessons.Queries.GetByIdQuery
 {
-    public class GetLessonByIdQuery:IRequest<Response<LessonDetailedVm>>
+    public class GetLessonByIdQuery:IRequest<Response<LessonVm>>
     {
         public int Id { get; set; }
         public LessonIncludes Includes { get; set; }
     }
-    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, Response<LessonDetailedVm>>
+    public class GetLessonByIdQueryHandler : IRequestHandler<GetLessonByIdQuery, Response<LessonVm>>
     {
         private readonly ILessonRepositoryAsync _lessonRepository;
         private readonly IMapper _mapper;
@@ -28,12 +29,12 @@ namespace E_learningPlatform.Application.Features.Lessons.Queries.GetByIdQuery
             _lessonRepository = lessonRepository;
             _mapper = mapper;
         }
-        public async Task<Response<LessonDetailedVm>> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<LessonVm>> Handle(GetLessonByIdQuery request, CancellationToken cancellationToken)
         {
             var lesson = await _lessonRepository.GetLessonByIdAsync(request.Id, request.Includes);    
             if(lesson==null) throw new ApiException("Lesson not found");
-            var lessonVm=_mapper.Map<LessonDetailedVm>(lesson);
-            return new Response<LessonDetailedVm>(lessonVm);
+            var lessonVm=_mapper.Map<LessonVm>(lesson);
+            return new Response<LessonVm>(lessonVm);
         }
     }
 }

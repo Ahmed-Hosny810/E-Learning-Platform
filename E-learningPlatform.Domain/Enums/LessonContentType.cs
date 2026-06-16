@@ -11,8 +11,7 @@ namespace E_learningPlatform.Domain.Enums
         Text = 1,
         Video = 2,
         PDF = 3,
-        Quiz = 4,
-        Code = 5,
-        ExternalLink = 6
+        Code = 4,
+        ExternalLink = 5
     }
 }

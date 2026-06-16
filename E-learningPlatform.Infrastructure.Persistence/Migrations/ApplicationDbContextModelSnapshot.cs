@@ -17,7 +17,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.12")
+                .HasAnnotation("ProductVersion", "10.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -189,6 +189,202 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.ToTable("CourseCategories", (string)null);
                 });
 
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.CourseReview", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EnrollmentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InstructorResponse")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<bool>("IsApproved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("RespondedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReviewText")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_CourseReviews_CreatedAt");
+
+                    b.HasIndex("EnrollmentId")
+                        .IsUnique()
+                        .HasDatabaseName("IX_CourseReviews_EnrollmentId")
+                        .HasFilter("[EnrollmentId] IS NOT NULL");
+
+                    b.HasIndex("Rating")
+                        .HasDatabaseName("IX_CourseReviews_Rating");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_CourseReviews_UserId");
+
+                    b.HasIndex("CourseId", "IsApproved")
+                        .HasDatabaseName("IX_CourseReviews_CourseId_IsApproved");
+
+                    b.ToTable("CourseReviews", null, t =>
+                        {
+                            t.HasCheckConstraint("CK_CourseReviews_Rating", "Rating >= 1 AND Rating <= 5");
+                        });
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionComment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsEdited")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("LikeCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<int?>("ParentCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentCommentId")
+                        .HasDatabaseName("IX_DiscussionComments_ParentCommentId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_DiscussionComments_UserId");
+
+                    b.HasIndex("PostId", "CreatedAt")
+                        .HasDatabaseName("IX_DiscussionComments_PostId_CreatedAt");
+
+                    b.ToTable("DiscussionComments", (string)null);
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionPost", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("nvarchar(4000)");
+
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsPinned")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsResolved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int?>("LessonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<int>("ViewCount")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsResolved")
+                        .HasDatabaseName("IX_DiscussionPosts_IsResolved");
+
+                    b.HasIndex("LessonId")
+                        .HasDatabaseName("IX_DiscussionPosts_LessonId");
+
+                    b.HasIndex("UserId")
+                        .HasDatabaseName("IX_DiscussionPosts_UserId");
+
+                    b.HasIndex("CourseId", "CreatedAt")
+                        .HasDatabaseName("IX_DiscussionPosts_CourseId_CreatedAt");
+
+                    b.HasIndex("IsPinned", "CreatedAt")
+                        .HasDatabaseName("IX_DiscussionPosts_IsPinned_CreatedAt");
+
+                    b.ToTable("DiscussionPosts", (string)null);
+                });
+
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Enrollment", b =>
                 {
                     b.Property<int>("Id")
@@ -229,14 +425,15 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserProfileId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    b.HasIndex("UserProfileId", "CourseId")
+                    b.HasIndex("UserId", "CourseId")
                         .IsUnique();
 
                     b.ToTable("Enrollments", (string)null);
@@ -402,6 +599,132 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.ToTable("LessonProgress", (string)null);
                 });
 
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.Message", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("MessageText")
+                        .IsRequired()
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ReceiverId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("SenderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<DateTime>("SentAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CourseId")
+                        .HasDatabaseName("IX_Messages_CourseId");
+
+                    b.HasIndex("MessageType")
+                        .HasDatabaseName("IX_Messages_MessageType");
+
+                    b.HasIndex("SenderId", "SentAt")
+                        .HasDatabaseName("IX_Messages_SenderProfileId_SentAt");
+
+                    b.HasIndex("ReceiverId", "IsRead", "SentAt")
+                        .HasDatabaseName("IX_Messages_ReceiverProfileId_IsRead_SentAt");
+
+                    b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.Notification", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("LinkUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<string>("Metadata")
+                        .HasMaxLength(2000)
+                        .HasColumnType("nvarchar(2000)");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_Notifications_CreatedAt");
+
+                    b.HasIndex("Type")
+                        .HasDatabaseName("IX_Notifications_Type");
+
+                    b.HasIndex("UserId", "IsRead", "CreatedAt")
+                        .HasDatabaseName("IX_Notifications_UserId_IsRead_CreatedAt");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Payment", b =>
                 {
                     b.Property<int>("Id")
@@ -424,6 +747,13 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
 
                     b.Property<int>("EnrollmentId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FailureReason")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime?>("PaidAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("PaymentMethod")
                         .HasMaxLength(50)
@@ -454,7 +784,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.HasIndex("Status")
                         .HasDatabaseName("IX_Payments_Status");
 
-                    b.ToTable("Payments");
+                    b.ToTable("Payments", (string)null);
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Question", b =>
@@ -548,14 +878,21 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("DisplayOrder")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPublished")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("IsRequired")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("LessonId")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("MaxAttempts")
                         .HasColumnType("int");
@@ -563,14 +900,23 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.Property<int>("PassingScore")
                         .HasColumnType("int");
 
+                    b.Property<int>("SectionId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("ShowCorrectAnswers")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("ShuffleOptions")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<bool>("ShuffleQuestions")
-                        .HasColumnType("bit");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
 
                     b.Property<int>("TimeLimitMinutes")
                         .HasColumnType("int");
@@ -585,9 +931,9 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LessonId");
+                    b.HasIndex("SectionId", "DisplayOrder");
 
-                    b.ToTable("Quizzes");
+                    b.ToTable("Quizzes", (string)null);
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.QuizAttempt", b =>
@@ -613,32 +959,33 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsPassed")
                         .HasColumnType("bit");
 
-                    b.Property<decimal>("Percentage")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)");
-
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("StudentId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("SubmittedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("TotalPoints")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -649,7 +996,10 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("QuizAttempts");
+                    b.HasIndex("StudentId", "QuizId")
+                        .HasDatabaseName("IX_QuizAttempts_StudentId_QuizId");
+
+                    b.ToTable("QuizAttempts", (string)null);
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Section", b =>
@@ -867,6 +1217,87 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.Navigation("Course");
                 });
 
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.CourseReview", b =>
+                {
+                    b.HasOne("E_learningPlatform.Domain.Models.Course", "Course")
+                        .WithMany("CourseReviews")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_learningPlatform.Domain.Models.Enrollment", "Enrollment")
+                        .WithOne("CourseReview")
+                        .HasForeignKey("E_learningPlatform.Domain.Models.CourseReview", "EnrollmentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "UserProfile")
+                        .WithMany("CourseReviews")
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Enrollment");
+
+                    b.Navigation("UserProfile");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionComment", b =>
+                {
+                    b.HasOne("E_learningPlatform.Domain.Models.DiscussionComment", "ParentComment")
+                        .WithMany("Replies")
+                        .HasForeignKey("ParentCommentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("E_learningPlatform.Domain.Models.DiscussionPost", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "UserProfile")
+                        .WithMany("DiscussionComments")
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("ParentComment");
+
+                    b.Navigation("Post");
+
+                    b.Navigation("UserProfile");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionPost", b =>
+                {
+                    b.HasOne("E_learningPlatform.Domain.Models.Course", "Course")
+                        .WithMany("DiscussionPosts")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("E_learningPlatform.Domain.Models.Lesson", "Lesson")
+                        .WithMany("DiscussionPosts")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "UserProfile")
+                        .WithMany("DiscussionPosts")
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("UserProfile");
+                });
+
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Enrollment", b =>
                 {
                     b.HasOne("E_learningPlatform.Domain.Models.Course", "Course")
@@ -877,7 +1308,8 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
 
                     b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "UserProfile")
                         .WithMany("Enrollments")
-                        .HasForeignKey("UserProfileId")
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -919,12 +1351,52 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.Navigation("Lesson");
                 });
 
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.Message", b =>
+                {
+                    b.HasOne("E_learningPlatform.Domain.Models.Course", "Course")
+                        .WithMany("Messages")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "Receiver")
+                        .WithMany("ReceivedMessages")
+                        .HasForeignKey("ReceiverId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "Sender")
+                        .WithMany("SentMessages")
+                        .HasForeignKey("SenderId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("Receiver");
+
+                    b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.Notification", b =>
+                {
+                    b.HasOne("E_learningPlatform.Domain.Models.UserProfile", "UserProfile")
+                        .WithMany("Notifications")
+                        .HasForeignKey("UserId")
+                        .HasPrincipalKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserProfile");
+                });
+
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Payment", b =>
                 {
                     b.HasOne("E_learningPlatform.Domain.Models.Enrollment", "Enrollment")
                         .WithMany("Payments")
                         .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Enrollment");
@@ -954,13 +1426,13 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Quiz", b =>
                 {
-                    b.HasOne("E_learningPlatform.Domain.Models.Lesson", "Lesson")
-                        .WithMany()
-                        .HasForeignKey("LessonId")
+                    b.HasOne("E_learningPlatform.Domain.Models.Section", "Section")
+                        .WithMany("Quizzes")
+                        .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Lesson");
+                    b.Navigation("Section");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.QuizAttempt", b =>
@@ -968,7 +1440,7 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                     b.HasOne("E_learningPlatform.Domain.Models.Enrollment", "Enrollment")
                         .WithMany()
                         .HasForeignKey("EnrollmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("E_learningPlatform.Domain.Models.Quiz", "Quiz")
@@ -1041,16 +1513,36 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
                 {
                     b.Navigation("CourseCategories");
 
+                    b.Navigation("CourseReviews");
+
+                    b.Navigation("DiscussionPosts");
+
+                    b.Navigation("Messages");
+
                     b.Navigation("Sections");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionComment", b =>
+                {
+                    b.Navigation("Replies");
+                });
+
+            modelBuilder.Entity("E_learningPlatform.Domain.Models.DiscussionPost", b =>
+                {
+                    b.Navigation("Comments");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Enrollment", b =>
                 {
+                    b.Navigation("CourseReview");
+
                     b.Navigation("Payments");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Lesson", b =>
                 {
+                    b.Navigation("DiscussionPosts");
+
                     b.Navigation("LessonContents");
                 });
 
@@ -1074,11 +1566,25 @@ namespace E_learningPlatform.Infrastructure.Persistence.Migrations
             modelBuilder.Entity("E_learningPlatform.Domain.Models.Section", b =>
                 {
                     b.Navigation("Lessons");
+
+                    b.Navigation("Quizzes");
                 });
 
             modelBuilder.Entity("E_learningPlatform.Domain.Models.UserProfile", b =>
                 {
+                    b.Navigation("CourseReviews");
+
+                    b.Navigation("DiscussionComments");
+
+                    b.Navigation("DiscussionPosts");
+
                     b.Navigation("Enrollments");
+
+                    b.Navigation("Notifications");
+
+                    b.Navigation("ReceivedMessages");
+
+                    b.Navigation("SentMessages");
                 });
 #pragma warning restore 612, 618
         }

@@ -59,7 +59,7 @@ namespace E_learningPlatform.Application.Features.LessonContents.Commands.Create
                     };
                     using var stream = request.File.OpenReadStream();
 
-                    // 3. Validate
+                    //  Validate
                     if (!_fileService.IsValidFile(stream, request.File.FileName, request.File.ContentType, _settings.AllowedFileExtensions.ToArray(), _settings.AllowedFileMimeTypes.ToArray(), maxBytes))
                     {
                         return new Response<int>("File validation failed: Invalid type or size.");
@@ -101,7 +101,6 @@ namespace E_learningPlatform.Application.Features.LessonContents.Commands.Create
             }
             catch (Exception)
             {
-                // Cleanup: Delete the file if DB save fails 
                 if (!string.IsNullOrEmpty(lessonContent.ContentUrl))
                 {
                     _fileService.DeleteFile(lessonContent.ContentUrl);

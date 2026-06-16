@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCommand
+namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.AbandonCommand
 {
     public class AbandonQuizAttemptCommand:IRequest<Response<int>>
     {

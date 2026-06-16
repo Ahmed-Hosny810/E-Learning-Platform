@@ -2,6 +2,7 @@
 using Asp.Versioning;
 using E_learningPlatform.Application;
 using E_learningPlatform.Application.Settings;
+using E_learningPlatform.Domain.Settings;
 using E_learningPlatform.Infrastructure.Persistence;
 using E_learningPlatform.WebApi.Extensions;
 using E_learningPlatform.WebApi.Middlewares;
@@ -29,6 +30,7 @@ namespace E_learningPlatform.WebApi
 
             builder.Services.Configure<FileUploadSettings>(
                 builder.Configuration.GetSection("FileUploadSettings"));
+            builder.Services.Configure<ApiSettings>(builder.Configuration.GetSection("ApiSettings"));
 
             // API Versioning
             builder.Services.AddApiVersioning(options =>

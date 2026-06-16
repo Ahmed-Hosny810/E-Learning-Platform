@@ -10,7 +10,7 @@ namespace E_learningPlatform.Domain.Models
 {
     public class Enrollment:BaseEntity
     {
-        public int UserProfileId { get; set; }
+        public string UserId { get; set; } = null!;
         public int CourseId { get; set; }
 
         public bool IsPaid { get; set; }
@@ -27,5 +27,7 @@ namespace E_learningPlatform.Domain.Models
         public ICollection<Payment> Payments { get; set; }
 
         public UserProfile UserProfile { get; set; } = null!;
+
+        public CourseReview? CourseReview { get; set; }
     }
 }

@@ -10,8 +10,10 @@ using E_learningPlatform.Application.Features.LessonContents.Commands.CreateComm
 using E_learningPlatform.Application.Features.LessonContents.DTO;
 using E_learningPlatform.Application.Features.Lessons.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.Lessons.DTO;
+using E_learningPlatform.Application.Features.Messages.DTO;
 using E_learningPlatform.Application.Features.Modules.Commands.CreateCommand;
 using E_learningPlatform.Application.Features.Modules.DTO;
+using E_learningPlatform.Application.Features.Notifications.DTO;
 using E_learningPlatform.Application.Features.Questions.Commands;
 using E_learningPlatform.Application.Features.Questions.DTO;
 using E_learningPlatform.Application.Features.Quizzes.Commands.CreateCommand;
@@ -19,6 +21,7 @@ using E_learningPlatform.Application.Features.Quizzes.DTO;
 using E_learningPlatform.Application.Features.Sections.DTO;
 using E_learningPlatform.Application.Features.UserProfiles.Commands.CreateProfile;
 using E_learningPlatform.Application.Features.UserProfiles.DTO;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -53,34 +56,49 @@ namespace E_learningPlatform.Application.Mappings
             CreateMap<Section, SectionVm>().ReverseMap();
             CreateMap<Section, SectionDetailedVm>().ReverseMap();
             CreateMap<Lesson,CreateLessonCommand>().ReverseMap();
-            CreateMap<Lesson,LessonVm>().ReverseMap();
-            CreateMap<Lesson,LessonDetailedVm>().ReverseMap();
+            CreateMap<Lesson, LessonVm>();        ;
             CreateMap<LessonContent,CreateLessonContentCommand>().ReverseMap();
             CreateMap<LessonContent, LessonContentVm>()
+                .ConstructUsingServiceLocator()
                 .ForMember(dest => dest.ContentType, opt => opt.MapFrom(src => src.ContentType.ToString()));
             CreateMap<Enrollment,CreateEnrollmentCommand>().ReverseMap();
             CreateMap<CreateQuizCommand, Quiz>();
 
             CreateMap<QuestionDto, Question>()
                 .ForMember(dest => dest.QuestionOptions, opt => opt.MapFrom(src => src.Options));
+
             CreateMap<QuestionOptionDto, QuestionOption>().ReverseMap();
             CreateMap<AddQuestionCommand, Question>();
 
-            CreateMap<Quiz, QuizStudentDto>();
+            CreateMap<Quiz, StudentQuizDto>();
 
-            CreateMap<Question, QuestionStudentDto>()
+            CreateMap<Question, QuestionDto>()
                 .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.QuestionOptions));
 
-            CreateMap<QuestionOption, OptionStudentDto>();
+            CreateMap<QuestionOption, OptionDto>();
 
-            CreateMap<Quiz, QuizEditorDto>();
+            CreateMap<Quiz, ReviewerQuizDto>();
 
-            CreateMap<Question, QuestionEditorDto>()
+            CreateMap<Question, ReviewerQuestionDto>()
                 .ForMember(dest => dest.Options, opt => opt.MapFrom(src => src.QuestionOptions));
 
-            CreateMap<QuestionOption, OptionEditorDto>();
+            CreateMap<QuestionOption, ReviewerOptionDto>();
 
-            //CreateMap<>().ReverseMap();
+
+            // Option Maps
+            CreateMap<QuestionOption, ReviewerOptionDto>();
+            CreateMap<QuestionOption, StudentOptionDto>();
+
+            // Question Maps
+            CreateMap<Question, ReviewerQuestionDto>();
+            CreateMap<Question, StudentQuestionDto>();
+
+            // Quiz Maps
+            CreateMap<Quiz, ReviewerQuizDto>();
+            CreateMap<Quiz, StudentQuizDto>();
+
+            CreateMap<Notification,NotificationDto>().ReverseMap();
+            CreateMap<Message,MessageDto>().ReverseMap();
             //CreateMap<>().ReverseMap();
             //CreateMap<>().ReverseMap();
 

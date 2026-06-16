@@ -2,7 +2,9 @@
 using E_learningPlatform.Application.Exceptions;
 using E_learningPlatform.Application.Features.QuizAttempts.DTO;
 using E_learningPlatform.Application.Interfaces.Repositories;
+using E_learningPlatform.Application.Interfaces.Services;
 using E_learningPlatform.Application.Wrappers;
+using E_learningPlatform.Domain.Constants;
 using E_learningPlatform.Domain.Models;
 using MediatR;
 using System;
@@ -11,7 +13,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCommand
+namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.SubmitCommand
 {
     public class SubmitQuizCommand: IRequest<Response<QuizResultDto>>
     {
@@ -23,12 +25,17 @@ namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCo
         private readonly IQuizRepositoryAsync _quizRepository;
         private readonly IQuizAttemptRepositoryAsync _attemptRepository;
         private readonly IMapper _mapper;
+        private readonly INotificationService _notificationService;
+        private readonly IUserService _userService;
 
-        public SubmitQuizCommandHandler(IQuizRepositoryAsync quizRepository, IQuizAttemptRepositoryAsync attemptRepository,IMapper mapper)
+        public SubmitQuizCommandHandler(IQuizRepositoryAsync quizRepository, IQuizAttemptRepositoryAsync attemptRepository,IMapper mapper,
+            INotificationService notificationService,IUserService userService)
         {
             _quizRepository = quizRepository;
             _attemptRepository = attemptRepository;
             _mapper = mapper;
+            _notificationService = notificationService;
+            _userService = userService;
         }
         public async Task<Response<QuizResultDto>> Handle(SubmitQuizCommand request, CancellationToken cancellationToken)
         {
@@ -36,14 +43,19 @@ namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCo
 
             if (attempt == null) throw new ApiException("Attempt not found.");
 
-            //if (attempt.StudentId != _userService.UserId) throw new ApiException("Unauthorized attempt access.");
+            if (attempt.StudentId != _userService.UserId) throw new ApiException("Unauthorized attempt access.");
 
-            if (attempt.Status != "InProgress") throw new ApiException("Quiz has already been submitted or is closed.");
+            if (attempt.Status != AttemptStatus.InProgress) throw new ApiException("Quiz has already been submitted or is closed.");
 
-            var elapsed = DateTime.UtcNow - attempt.StartedAt;
-            if (elapsed.TotalMinutes > (attempt.Quiz.TimeLimitMinutes + 2)) // +2 min for delay period
+            if (attempt.IsExpired(attempt.Quiz.TimeLimitMinutes))
             {
-               attempt.Status = "TimedOut";
+               attempt.Status = AttemptStatus.Expired;
+                await _attemptRepository.UpdateAsync(attempt);
+                await _notificationService.NotifyQuizExpiredAsync(
+                       attempt.StudentId,
+                       attempt.Id,
+                       attempt.Quiz.Title);
+                throw new ApiException("Time has expired. Your attempt has been closed.");
             }
 
             int totalPointsEarned = 0;
@@ -53,6 +65,7 @@ namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCo
             {
                 totalPossiblePoints += question.Points;
                 var studentAnswer = request.Answers.FirstOrDefault(a => a.QuestionId == question.Id);
+                var correctOption = question.QuestionOptions.FirstOrDefault(x => x.IsCorrect);
 
                 var userAnswer = new UserAnswer
                 {
@@ -63,31 +76,26 @@ namespace E_learningPlatform.Application.Features.QuizAttempts.Commands.CreateCo
                     PointsEarned = 0,
                     AnsweredAt = DateTime.UtcNow
                 };
-
-                // Check if correct
-                var correctOption = question.QuestionOptions.FirstOrDefault(x => x.IsCorrect);
-                if (studentAnswer != null && studentAnswer.SelectedOptionId == correctOption?.Id)
-                {
-                    userAnswer.IsCorrect = true;
-                    userAnswer.PointsEarned = question.Points;
-                    totalPointsEarned += question.Points;
-                }
-
                 attempt.UserAnswers.Add(userAnswer);
             }
             attempt.Score = totalPointsEarned;
             attempt.TotalPoints = totalPossiblePoints;
-            attempt.Percentage = totalPossiblePoints > 0
-            ? Math.Round((decimal)totalPointsEarned / totalPossiblePoints * 100, 2): 0;
             attempt.IsPassed = attempt.Percentage >= attempt.Quiz.PassingScore;
-            attempt.Status = "Completed";
+            attempt.Status = AttemptStatus.Completed;
             attempt.CompletedAt = DateTime.UtcNow;
 
             await _attemptRepository.UpdateAsync(attempt);
 
-            var resultDto = _mapper.Map<QuizResultDto>(attempt);
+            await _notificationService.NotifyQuizSubmittedAsync(
+                      attempt.StudentId,
+                      attempt.Id,
+                      attempt.Quiz.Title,
+                      attempt.Score,
+                      attempt.TotalPoints,
+                      attempt.IsPassed);
 
-            return new Response<QuizResultDto>(resultDto);
+            
+            return new Response<QuizResultDto>(_mapper.Map<QuizResultDto>(attempt));
 
         }
     }

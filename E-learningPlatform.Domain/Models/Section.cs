@@ -20,6 +20,7 @@ namespace E_learningPlatform.Domain.Models
         public int? DurationMinutes { get; set; }
         public bool IsPublished { get; set; }
         public  Course? Course { get; set; }
-        public  ICollection<Lesson?> Lessons { get; set; }
+        public ICollection<Lesson> Lessons { get; set; }= new HashSet<Lesson>();
+        public ICollection<Quiz> Quizzes { get; set; } = new HashSet<Quiz>();
     }
 }
